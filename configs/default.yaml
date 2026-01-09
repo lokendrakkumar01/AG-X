@@ -1,0 +1,78 @@
+# AG-X 2026 Default Configuration
+# ================================
+# All settings are for theoretical simulations only.
+
+name: "AG-X Default Simulation"
+description: "Standard gravity simulation configuration"
+
+physics:
+  timesteps: 1000
+  dt: 0.01
+  dimensions: 3
+  
+  newtonian:
+    enabled: true
+    softening_length: 1.0e-6
+    max_bodies: 1000
+  
+  general_relativity:
+    enabled: true
+    curvature_resolution: 64
+  
+  quantum_field:
+    enabled: true
+    vacuum_energy_density: 1.0e-9
+    fluctuation_amplitude: 1.0e-12
+  
+  speculative:
+    enabled: true
+    negative_mass_enabled: true
+    exotic_energy_fields: true
+    dark_energy_repulsion: true
+    warp_field_model: false
+    max_negative_mass_ratio: 0.1
+  
+  solver:
+    method: DOP853
+    adaptive_step: true
+    rtol: 1.0e-8
+    atol: 1.0e-10
+    stochastic_noise: false
+    chaos_detection: true
+
+ai:
+  explorer:
+    enabled: true
+    surrogate_model: mlp
+    hidden_layers: [256, 128, 64]
+  
+  optimizer:
+    enabled: true
+    algorithm: PPO
+    learning_rate: 3.0e-4
+    training_steps: 10000
+  
+  anomaly:
+    enabled: true
+    method: autoencoder
+    contamination: 0.01
+  
+  explainer:
+    enabled: true
+    method: shap
+    generate_text: true
+
+visualization:
+  theme: dark
+  colormap: viridis
+  particle_size: 8.0
+  vector_scale: 0.3
+  animation_fps: 30
+  update_interval_ms: 100
+
+experiment:
+  auto_save: true
+  save_interval: 100
+  versioning: true
+  auto_report: true
+  report_format: both

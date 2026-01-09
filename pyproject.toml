@@ -1,0 +1,126 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agx-2026"
+version = "1.0.0"
+description = "AG-X 2026: Advanced Gravity Research Simulation Platform - A theoretical exploration system for gravity-alteration and hypothetical anti-gravity simulations"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "AG-X Research Team", email = "research@agx2026.local"}
+]
+keywords = [
+    "physics", "simulation", "gravity", "research", "ai", "visualization",
+    "theoretical-physics", "computational-science", "deep-learning"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+
+dependencies = [
+    # Core Scientific Computing
+    "numpy>=1.24.0",
+    "scipy>=1.11.0",
+    "pandas>=2.0.0",
+    
+    # Deep Learning & AI
+    "torch>=2.0.0",
+    "gymnasium>=0.29.0",
+    "stable-baselines3>=2.1.0",
+    "scikit-learn>=1.3.0",
+    
+    # Explainable AI
+    "shap>=0.42.0",
+    
+    # Symbolic Mathematics
+    "sympy>=1.12",
+    
+    # Visualization
+    "plotly>=5.17.0",
+    "dash>=2.14.0",
+    "dash-bootstrap-components>=1.5.0",
+    "matplotlib>=3.7.0",
+    
+    # Report Generation
+    "reportlab>=4.0.0",
+    "markdown>=3.5.0",
+    "jinja2>=3.1.0",
+    
+    # Configuration & Utils
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+    "pyyaml>=6.0.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.6.0",
+    "click>=8.1.0",
+    "tqdm>=4.66.0",
+    
+    # Logging & Monitoring
+    "loguru>=0.7.0",
+]
+
+[project.optional-dependencies]
+gpu = [
+    "cupy-cuda12x>=12.0.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.9.0",
+    "ruff>=0.1.0",
+    "mypy>=1.6.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.4.0",
+    "mkdocstrings[python]>=0.23.0",
+]
+all = [
+    "agx-2026[gpu,dev,docs]",
+]
+
+[project.scripts]
+agx = "agx.main:cli"
+agx-web = "agx.web_app:main"
+
+[project.urls]
+Homepage = "https://github.com/agx-research/agx-2026"
+Documentation = "https://agx-2026.readthedocs.io"
+Repository = "https://github.com/agx-research/agx-2026"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agx*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_ignores = true

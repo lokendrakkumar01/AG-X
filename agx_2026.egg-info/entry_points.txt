@@ -1,0 +1,3 @@
+[console_scripts]
+agx = agx.main:cli
+agx-web = agx.web_app:main
