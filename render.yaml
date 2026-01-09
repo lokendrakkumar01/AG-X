@@ -1,19 +1,19 @@
 # Render.com Deployment Configuration
 # =====================================
-# Deploy AG-X 2026 to Render.com
 
 services:
   - type: web
     name: agx-2026
     runtime: python
-    buildCommand: pip install -e .
-    startCommand: gunicorn agx.viz.dashboard:server --bind 0.0.0.0:$PORT --workers 2
+    region: oregon
+    plan: free
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt && pip install gunicorn"
+    startCommand: "gunicorn agx.viz.dashboard:server --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 120"
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: "3.11.0"
       - key: AGX_ENV
         value: production
       - key: AGX_DEBUG
-        value: false
-    healthCheckPath: /
+        value: "false"
     autoDeploy: true
