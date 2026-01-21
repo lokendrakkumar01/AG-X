@@ -206,6 +206,163 @@ class VisualizationConfig(BaseModel):
 
 
 # =============================================================================
+# Chemistry Configuration
+# =============================================================================
+
+class ChemistryConfig(BaseModel):
+    """Chemistry module configuration."""
+    enabled: bool = True
+    molecular_viz_enabled: bool = True
+    equation_balancer: bool = True
+    virtual_lab: bool = True
+    
+    # Molecular visualization
+    max_atoms: int = Field(default=500, ge=1, le=10000)
+    visualization_format: Literal["3d", "2d", "both"] = "3d"
+    
+    # Virtual lab safety
+    enable_hazard_warnings: bool = True
+    allow_explosive_reactions: bool = Field(default=False, description="Educational only")
+    
+
+class MathematicsConfig(BaseModel):
+    """Mathematics module configuration."""
+    enabled: bool = True
+    symbolic_computation: bool = True
+    graphing_enabled: bool = True
+    step_by_step_solutions: bool = True
+    
+    # Computation limits
+    max_equation_complexity: int = Field(default=1000, ge=1)
+    timeout_seconds: int = Field(default=30, ge=1, le=300)
+    
+    # Graphing
+    graph_resolution: int = Field(default=1000, ge=100, le=10000)
+    max_plot_points: int = Field(default=100000, ge=1000)
+    
+
+class ComputerScienceConfig(BaseModel):
+    """Computer Science module configuration."""
+    enabled: bool = True
+    algorithm_visualizer: bool = True
+    os_simulator: bool = True
+    db_visualizer: bool = True
+    network_simulator: bool = True
+    
+    # Simulation limits
+    max_processes: int = Field(default=50, ge=1, le=1000)
+    max_network_nodes: int = Field(default=100, ge=1, le=1000)
+    
+
+class DSAConfig(BaseModel):
+    """Data Structures & Algorithms practice configuration."""
+    enabled: bool = True
+    code_execution_enabled: bool = True
+    visualization_enabled: bool = True
+    
+    # Supported languages
+    supported_languages: List[str] = Field(default=[
+        "python", "java", "cpp", "c", "javascript", "go", 
+        "rust", "php", "csharp", "kotlin", "swift", "ruby"
+    ])
+    
+    # Execution limits
+    max_execution_time_seconds: int = Field(default=10, ge=1, le=60)
+    max_memory_mb: int = Field(default=256, ge=32, le=2048)
+    max_output_size_kb: int = Field(default=1024, ge=1, le=10240)
+    
+    # Problem settings
+    difficulty_levels: List[str] = Field(default=["beginner", "intermediate", "advanced"])
+    enable_hints: bool = True
+    show_complexity_analysis: bool = True
+    
+
+class ProgrammingConfig(BaseModel):
+    """Programming languages module configuration."""
+    enabled: bool = True
+    
+    # Language support
+    available_languages: List[str] = Field(default=[
+        "python", "java", "cpp", "c", "javascript", "typescript",
+        "go", "rust", "php", "csharp", "kotlin", "swift", "ruby", "scala"
+    ])
+    
+    code_formatting: bool = True
+    syntax_highlighting: bool = True
+    
+
+class CommunityConfig(BaseModel):
+    """Community and user-generated content configuration."""
+    enabled: bool = True
+    user_uploads_enabled: bool = True
+    moderation_enabled: bool = True
+    
+    # Content limits
+    max_note_size_kb: int = Field(default=500, ge=1, le=5120)
+    max_uploads_per_day: int = Field(default=20, ge=1, le=100)
+    
+    # Moderation
+    auto_moderation: bool = True
+    require_approval: bool = Field(default=False, description="New content requires approval")
+    plagiarism_check: bool = True
+    
+    # Interactions
+    enable_comments: bool = True
+    enable_ratings: bool = True
+    enable_bookmarks: bool = True
+    
+
+class EnglishConfig(BaseModel):
+    """English communication module configuration."""
+    enabled: bool = True
+    daily_vocabulary: bool = True
+    grammar_checker: bool = True
+    conversation_practice: bool = True
+    
+    # Vocabulary
+    words_per_day: int = Field(default=5, ge=1, le=50)
+    difficulty_levels: List[str] = Field(default=["basic", "intermediate", "advanced"])
+    
+    # AI conversation
+    ai_conversation_enabled: bool = True
+    max_conversation_turns: int = Field(default=20, ge=1, le=100)
+    
+
+class DatabaseConfig(BaseModel):
+    """Database configuration for user data and content."""
+    database_url: str = Field(default="sqlite:///agx_2026.db")
+    echo_sql: bool = Field(default=False, description="Print SQL queries")
+    
+    # Connection pool
+    pool_size: int = Field(default=5, ge=1, le=100)
+    max_overflow: int = Field(default=10, ge=0, le=100)
+    
+    # Performance
+    enable_query_cache: bool = True
+    cache_ttl_seconds: int = Field(default=300, ge=0)
+    
+
+class AuthConfig(BaseModel):
+    """Authentication and authorization configuration."""
+    enabled: bool = True
+    
+    # JWT settings
+    secret_key: str = Field(default="CHANGE_THIS_SECRET_KEY_IN_PRODUCTION")
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = Field(default=30, ge=5, le=1440)
+    refresh_token_expire_days: int = Field(default=7, ge=1, le=30)
+    
+    # Password settings
+    min_password_length: int = Field(default=8, ge=6, le=128)
+    require_special_char: bool = True
+    require_number: bool = True
+    
+    # OAuth
+    enable_oauth: bool = False
+    oauth_providers: List[str] = Field(default=[])
+
+
+# =============================================================================
 # Experiment Configuration
 # =============================================================================
 
@@ -230,13 +387,27 @@ class ExperimentConfig(BaseModel):
 class AGXConfig(BaseModel):
     """Master configuration for AG-X 2026 platform."""
     
-    name: str = Field(default="AG-X Simulation", description="Experiment name")
-    description: str = Field(default="", description="Experiment description")
+    name: str = Field(default="AG-X 2026 Universal Platform", description="Platform name")
+    description: str = Field(default="", description="Platform description")
     
+    # Core modules (existing)
     physics: PhysicsConfig = Field(default_factory=PhysicsConfig)
     ai: AIConfig = Field(default_factory=AIConfig)
     visualization: VisualizationConfig = Field(default_factory=VisualizationConfig)
     experiment: ExperimentConfig = Field(default_factory=ExperimentConfig)
+    
+    # New educational modules
+    chemistry: ChemistryConfig = Field(default_factory=ChemistryConfig)
+    mathematics: MathematicsConfig = Field(default_factory=MathematicsConfig)
+    computer_science: ComputerScienceConfig = Field(default_factory=ComputerScienceConfig)
+    dsa: DSAConfig = Field(default_factory=DSAConfig)
+    programming: ProgrammingConfig = Field(default_factory=ProgrammingConfig)
+    community: CommunityConfig = Field(default_factory=CommunityConfig)
+    english: EnglishConfig = Field(default_factory=EnglishConfig)
+    
+    # Infrastructure
+    database: DatabaseConfig = Field(default_factory=DatabaseConfig)
+    auth: AuthConfig = Field(default_factory=AuthConfig)
     
     @classmethod
     def from_yaml(cls, path: str | Path) -> "AGXConfig":
